@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 
@@ -55,7 +58,7 @@ public class UserService {
     public User temporaryPassword(String email) throws UserNotFoundException{
         User user=userRepository.findByEmail(email);
         if(user==null) {
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException("등록된 이메일이 아닙니다.");
         }
         String tmpPassword=generateRandomPassword();
         user.updatePassword(tmpPassword);
@@ -109,4 +112,39 @@ public class UserService {
         int code = random.nextInt(900000) + 100000;
         return String.valueOf(code);
     }
+
+    @Transactional
+    public User updateUser(Integer userId, String newNickname, String newUserImg, String newGender, String newPassword) throws UserNotFoundException {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            throw new UserNotFoundException("User with ID " + userId + " not found.");
+        }
+
+        User user = userOptional.get();
+        user.updateUserInfo(newNickname, newUserImg, newGender, newPassword);
+
+        return userRepository.save(user);
+    }
+
+    public User getUser(int user_id){
+        User member=userRepository.getReferenceById(user_id);
+        if(member==null){
+            throw new UserNotFoundException("유저 아이디 번호가 존재하지 않습니다.");
+        }
+        return member;
+    }
+
+    public void softDeleteUser(Integer userId) throws UserNotFoundException {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            throw new UserNotFoundException("User with ID " + userId + " not found.");
+        }
+
+        User user = userOptional.get();
+        user.setDeleted(true);
+        user.setDeletedAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+
 }

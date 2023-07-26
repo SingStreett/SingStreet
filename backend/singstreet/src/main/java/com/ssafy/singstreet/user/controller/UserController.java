@@ -74,8 +74,14 @@ public class UserController {
         return  ResponseEntity.ok("닉네임이 사용가능합니다");
     }
 
+
+   @PostMapping("/auth/password")
+   public ResponseEntity<String> sendTemporaryPassword(@RequestBody String email) throws UserNotFoundException {
+        userService.temporaryPassword(email);
+        return ResponseEntity.ok("메시지가 발송되었습니다.");
+   }
     @PostMapping("/user")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegistDTO registrationDTO) {
+    public ResponseEntity<String> CreateUser(@RequestBody UserRegistDTO registrationDTO) {
         try {
             User registeredUser = userService.registerUser(registrationDTO);
             return ResponseEntity.ok(registeredUser.getNickname()+"님 환영합니다");
@@ -84,11 +90,37 @@ public class UserController {
         }
     }
 
-
-   @PostMapping("/auth/password")
-   public ResponseEntity<String> sendTemporaryPassword(@RequestBody String email) throws UserNotFoundException {
-        userService.temporaryPassword(email);
-        System.out.println("전송되었습니다");
+   @PutMapping("/user")
+   public ResponseEntity<String> updateUser(@RequestParam Integer user_id,
+                                            @RequestParam String newNickname,
+                                            @RequestParam String newUserImg,
+                                            @RequestParam String newGender,
+                                            @RequestParam String newPassword) {
+       try {
+           User updatedUser = userService.updateUser(user_id, newNickname, newUserImg, newGender, newPassword);
+           return ResponseEntity.ok("User with ID " + user_id + " updated successfully.");
+       } catch (UserNotFoundException e) {
+           return ResponseEntity.notFound().build();
+       } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user.");
+       }
    }
+   @GetMapping("/user/{user_id}")
+   @ResponseBody
+   public ResponseEntity<User> GetUser(@PathVariable("user_id") int userId){
+        userService.
+   }
+
+    @PutMapping("/user/leave")
+    public ResponseEntity<String> softDeleteUser(@RequestParam("user_id") Integer userId) {
+        try {
+            userService.softDeleteUser(userId);
+            return ResponseEntity.ok("User with ID " + userId + " soft deleted successfully.");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error soft deleting user.");
+        }
+    }
 
 }
