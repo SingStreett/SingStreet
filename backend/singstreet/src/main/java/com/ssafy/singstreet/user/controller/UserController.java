@@ -107,9 +107,8 @@ public class UserController {
    }
    @GetMapping("/user/{user_id}")
    @ResponseBody
-   public ResponseEntity<User> GetUser(@PathVariable("user_id") int userId) throws UserNotFoundException {
-        User result=userService.getUser(userId);
-        return ResponseEntity.ok(result);
+   public ResponseEntity<User> GetUser(@PathVariable("user_id") int userId){
+        userService.
    }
 
     @PutMapping("/user/leave")
