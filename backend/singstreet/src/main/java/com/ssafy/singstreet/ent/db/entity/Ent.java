@@ -10,20 +10,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ent")
 @Getter
 @NoArgsConstructor // 기본 생성자
-@AllArgsConstructor // 모든 필드를 사용하는 생성자
-@Builder // 생성자 만들기
 public class Ent extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ent_id")
     private Integer entId;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
@@ -36,7 +34,7 @@ public class Ent extends BaseTimeEntity {
     private String entName;
 
     @Column(name = "is_auto_accepted", nullable = false, length = 40)
-    private String isAutoAccepted;
+    private Boolean isAutoAccepted;
 
     @Column(name = "ent_info", length = 1000)
     private String entInfo;
@@ -44,6 +42,27 @@ public class Ent extends BaseTimeEntity {
     @Column(name = "ent_img", length = 255)
     private String entImg;
 
-//    @Column(name = "created_at", nullable = false)
-//    private LocalDateTime createdAt;
+    @Column(name = "is_deleted", columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isDeleted;
+
+    @Builder
+    public Ent(User user, String entName, Boolean isAutoAccepted, String entInfo, String entImg){
+        this.user = user;
+        this.entName = entName;
+        this.isAutoAccepted = isAutoAccepted;
+        this.entInfo = entInfo;
+        this.entImg = entImg;
+    }
+
+    public void update(String entName, Boolean isAutoAccepted, String entInfo, String entImg){
+        this.entName = entName;
+        this.isAutoAccepted = isAutoAccepted;
+        this.entInfo = entInfo;
+        this.entImg = entImg;
+    }
+
+    public void delete(){
+        this.isDeleted = true;
+    }
+
 }
