@@ -1,11 +1,9 @@
 package com.ssafy.singstreet.project.db.entity;
 
+import com.ssafy.singstreet.common.BaseTimeEntity;
 import com.ssafy.singstreet.ent.db.entity.Ent;
 import com.ssafy.singstreet.user.db.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,8 +14,9 @@ import java.time.LocalDateTime;
 @Builder // 생성자 만들기
 @AllArgsConstructor // 모든 필드를 사용하는 생성자
 @Entity
+@Setter
 @Table(name = "project")
-public class Project {
+public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +30,6 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
     private User user;
-
-//    @Column(name = "ent_id", nullable = false)
-//    private Integer entId; // Assuming ent_id references the ent table's ent_id
-//
-//    @Column(name = "user_id", nullable = false)
-//    private Integer userId; // Assuming user_id references the user table's user_id
 
     @Column(name = "project_name", nullable = false, length = 20)
     private String projectName;
@@ -74,8 +67,8 @@ public class Project {
     @Column(name = "last_enter_date")
     private LocalDate lastEnterDate;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+//    @Column(name = "created_at", nullable = false)
+//    private LocalDateTime createdAt;
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
@@ -83,6 +76,45 @@ public class Project {
     @Column(name = "is_visible", nullable = false)
     private boolean isVisible;
 
+    // 마감시 false
+    @Column(name = "is_recruited", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    private boolean isRecruited;
+
     @Column(name = "audio_name", length = 255)
     private String audioName;
+
+    @Column(name = "deleted_at", length = 255)
+    private LocalDateTime deletedAt;
+
+    // 프로젝트 삭제처리
+    public void delete(){
+        this.isDestroyed = true;
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    // 프로젝트 업데이트 처리
+    public void update(String projectName, String singerName, String singName, String projectInfo, String projectImg, boolean isRecruited, boolean isVisible) {
+        this.projectName = projectName;
+        this.singerName = singerName;
+        this.singName = singName;
+        this.projectInfo = projectInfo;
+        this.projectImg = projectImg;
+        this.isRecruited = isRecruited;
+        this.isVisible = isVisible;
+    }
+
+    // 이전달 좋아요 수 갱신
+    public void updateMonthlyLikeCount(int currentMonthlyLikes) {
+        this.monthlyLikeCount = currentMonthlyLikes;
+    }
+
+    public void updateAudioFile(String audioFilename) {
+        this.audioName = audioFilename;
+    }
+    public void updateOriginFilename(String originFilename) {
+        this.originFilename = originFilename;
+    }
+    public void plusLikeCount() { this.likeCount++; };
+    public void minusLikeCount() { this.likeCount--; };
 }
+
