@@ -24,6 +24,8 @@ import java.util.UUID;
 public class AmazonS3Service {
     @Value("${aws.s3.bucketName}")
     private String bucketName;
+    @Value("${aws.region}")
+    private String region;
 
     private final S3Client s3Client;
 
@@ -39,6 +41,7 @@ public class AmazonS3Service {
             throw new RuntimeException("Failed to download file from S3");
         }
     }
+
 
     public ResponseEntity<InputStreamResource> downloadFile(String filename) {
         try {
@@ -98,13 +101,15 @@ public class AmazonS3Service {
 //        }
 //    }
 public String uploadFile(MultipartFile file) {
-    String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+    String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
     try {
         s3Client.putObject(PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(fileName)
+                .contentType("image/png")
                 .build(), RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
-        return fileName;
+        String S3url = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + fileName;
+        return S3url;
     } catch (IOException e) {
         e.printStackTrace();
         throw new RuntimeException("Failed to upload file to S3");
