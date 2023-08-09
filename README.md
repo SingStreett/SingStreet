@@ -1,6 +1,6 @@
 #서버
-FE: http://i9b110.p.ssafy.io:3000/
-BE: http://i9b110.p.ssafy.io:4050/
+FE: https://i9b110.p.ssafy.io/
+BE: https://i9b110.p.ssafy.io/backend
 BE-swagger: http://i9b110.p.ssafy.io:4050/swagger-ui/index.html
 
 # git 컨벤션
