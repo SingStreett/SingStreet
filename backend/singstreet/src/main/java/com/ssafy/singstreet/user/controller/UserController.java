@@ -13,8 +13,11 @@ import com.ssafy.singstreet.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.mail.*;
 
 
@@ -139,12 +142,29 @@ public class UserController {
         userService.temporaryPassword(email);
         return ResponseEntity.ok("메시지가 발송되었습니다.");
    }
-    @PostMapping("/user")
-    @ApiOperation(value="유저 등록하기", notes="유저를 등록하는 메서드입니다.")
-    public ResponseEntity<String> CreateUser(@RequestBody UserRegistDTO registrationDTO) {
+//    @PostMapping("/user")
+//    @ApiOperation(value="유저 등록하기", notes="유저를 등록하는 메서드입니다.")
+//    public ResponseEntity<String> CreateUser(@RequestBody UserRegistDTO registrationDTO) {
+//        try {
+//            User registeredUser = userService.registerUser(registrationDTO);
+//            return ResponseEntity.ok(registeredUser.getNickname()+"님 환영합니다");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("유저 등록 에러남 ㅅㄱ");
+//        }
+//    }
+
+    @PostMapping(value = "/user", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    @ApiOperation(value = "유저 등록하기", notes = "유저를 등록하는 메서드입니다.")
+    public ResponseEntity<String> CreateUser(
+            @RequestPart(value = "registrationDTO", required = false) UserRegistDTO registrationDTO,
+            @RequestPart(value = "file", required = false) MultipartFile file) {
         try {
-            User registeredUser = userService.registerUser(registrationDTO);
-            return ResponseEntity.ok(registeredUser.getNickname()+"님 환영합니다");
+            if (registrationDTO != null) {
+                User registeredUser = userService.registerUser(registrationDTO, file);
+                return ResponseEntity.ok(registeredUser.getNickname() + "님 환영합니다");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("JSON 데이터나 파일을 제대로 보내주세요.");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("유저 등록 에러남 ㅅㄱ");
         }

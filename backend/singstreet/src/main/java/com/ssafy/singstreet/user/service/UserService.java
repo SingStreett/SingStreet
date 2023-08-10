@@ -1,5 +1,6 @@
 package com.ssafy.singstreet.user.service;
 
+import com.ssafy.singstreet.config.AmazonS3Service;
 import com.ssafy.singstreet.user.Exception.UserNotFoundException;
 import com.ssafy.singstreet.user.db.entity.User;
 import com.ssafy.singstreet.user.db.repo.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -24,34 +26,41 @@ import java.util.*;
 public class UserService {
     private final UserRepository userRepository;
     //밑의 4 변수는 메일을 보낼때 필요한 상수입니다.
+
+    private final AmazonS3Service amazonS3Service;
     private static final String SMTP_HOST = "smtp.naver.com"; // e.g., smtp.gmail.com
     private static final String SMTP_PORT = "465";
     private static final String EMAIL_USERNAME = "human3452@naver.com";
     private static final String EMAIL_PASSWORD = "trustworthy1!";
-
     private AuthenticationManagerBuilder authenticationManagerBuilder;
+
     private JwtTokenProvider jwtTokenProvider;
     //유저리포지토리 받아오기
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationManagerBuilder authenticationManagerBuilder, JwtTokenProvider jwtTokenProvider) {
+    public UserService(AmazonS3Service amazonS3Service, UserRepository userRepository, AuthenticationManagerBuilder authenticationManagerBuilder, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.amazonS3Service=amazonS3Service;
     }
     public List<User> getAll(){
         return userRepository.findAll();
     }
 
     //유저 등록
-    public User registerUser(UserRegistDTO registrationDTO) {
+    //유저 등록
+    public User registerUser(UserRegistDTO registrationDTO, MultipartFile file) {
         // Prepare user roles
         ArrayList<String> roles = new ArrayList<>();
         roles.add("USER");
 
+
+        String s3Url = amazonS3Service.uploadFile(file);
+
         // Create new user object
         User user = User.builder()
                 .nickname(registrationDTO.getNickname())
-                .userImg(registrationDTO.getUserImg())
+                .userImg(s3Url)
                 .email(registrationDTO.getEmail())
                 .gender(registrationDTO.getGender())
                 .password(registrationDTO.getPassword()) // In real-world scenarios, don't forget to encrypt the password!
