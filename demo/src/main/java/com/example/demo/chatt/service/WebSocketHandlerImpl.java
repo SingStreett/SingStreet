@@ -18,7 +18,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 
 
-@ServerEndpoint(value = "/chatt/{entId}", decoders = MessageDecoder.class)
+@ServerEndpoint(value = "/ws/chatt/{entId}", decoders = MessageDecoder.class)
 @Component
 @CrossOrigin("*")
 //@RequiredArgsConstructor
