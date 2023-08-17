@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketConfigurer {//implements WebSoc
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketHandlerImpl(), "chatt/{entId}")
+        registry.addHandler(new WebSocketHandlerImpl(), "ws/chatt/1")
                 .setAllowedOrigins("*");
     }
 
