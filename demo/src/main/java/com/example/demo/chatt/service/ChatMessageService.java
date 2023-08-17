@@ -1,8 +1,7 @@
-package com.example.demo.chatt.service;//package com.ssafy.singstreet.chatt.service;
+package com.example.demo.chatt.service;
 
 import com.example.demo.chatt.db.ChatMessage;
 import com.example.demo.chatt.db.ChatMessageRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -26,7 +25,7 @@ public class ChatMessageService {
     }
 
     public Slice<ChatMessage> getMessagesWithPagination(int entId,int page, int size){
-        return messageRepository.findAllByEntId(entId,PageRequest.of(page,size,Sort.by("createdAt")));
+//        return messageRepository.findAllByEntIdOrderByCreatedAtDesc(entId,PageRequest.of(page,size,Sort.by("createdAt")));
+        return messageRepository.findAllByEntId(entId,PageRequest.of(page,size,Sort.by(Sort.Direction.DESC,"createdAt")));
     }
-
 }
