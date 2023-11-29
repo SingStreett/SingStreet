@@ -112,52 +112,52 @@
 # 💻 기능 소개
 
 ### 엔터 메인 페이지
-<img src = "Image/enterMain.png" width="500px"><br>
+<img src = "Image/enterMain.png" width="700px"><br>
 * 엔터내 피드를 통하여 글을 작성할 수 있고 엔터 내 작품들을 확인할 수 있습니다.
 <br> 
 
 ### 엔터 생성
-<img src = "Image/enterCreate.gif" width="500px"><br>
+<img src = "Image/enterCreate.gif" width="700px"><br>
 * 엔터명, 엔터소개, 해시태그, 공개여부, 엔터 프로필을 입력받고 엔터를 생성할 수 있습니다.
 <br>
 
 ### 엔터 지원하기 
-<img src = "Image/enterJoin.gif" width="500px"><br>
+<img src = "Image/enterJoin.gif" width="700px"><br>
 * 엔터 목록 페이지에서 엔터에 들어간 후 지원하기 버튼을 누른 후 나이, 선호 아티스트, 하고싶은 노래, 포부, 자신의 포트폴리오를 올려 지원할 수 있습니다.
 <br>
 
 ### 엔터 수락하기
-<img src = "Image/enterJoinAgree.gif" width="500px"><br>
+<img src = "Image/enterJoinAgree.gif" width="700px"><br>
 * 엔터장은 엔터 페이지에서 지원자 목록을 확인 후 수락 혹은 거절을 선택할 수 있습니다.
 <br>
 
 ### 엔터 내 피드 작성
-<img src = "Image/enterFeedCreate.gif" width="500px"><br>
+<img src = "Image/enterFeedCreate.gif" width="700px"><br>
 * 가입된 엔터 페이지에서 피드에 글을 작성할 수 있습니다.
 <br>
 
 ### 엔터 내 프로젝트 생성
-<img src = "Image/projectCreate.gif" width="500px"><br>
+<img src = "Image/projectCreate.gif" width="700px"><br>
 * 가입된 엔터 페이지에서 프로젝트명, 프로젝트소개, 곡, 가수, 해시태그, 모집여부, 공개여부, 가수 파트를 설정하여 생성할 수 있습니다.
 <br>
 
 ### 프로젝트 멤버 초대
-<img src = "Image/projectMemberJoin.gif" width="500px"><br>
+<img src = "Image/projectMemberJoin.gif" width="700px"><br>
 * 프로젝트장은 가입된 엔터 내의 멤버들을 프로젝트에 초대할 수 있습니다.
 <br>
 
 ### 프로젝트 멤버 파트 부여
-<img src = "Image/projectPart.gif" width="500px"><br>
+<img src = "Image/projectPart.gif" width="700px"><br>
 * 프로젝트장은 프로젝트 스튜디오에 입장하기 전 수정버튼으로 초대된 멤버들에게 파트를 부여할 수 있습니다.
 <br>
 
 ### 랭킹 페이지
-<img src = "Image/rank.png" width="500px"><br>
+<img src = "Image/rank.png" width="700px"><br>
 * 유저들이 올린 작품에 대한 저번 달의 좋아요 수를 바탕으로 랭킹을 집계하고 그 순위별로 화면에 표시합니다.
 <br>
 
 ### 음원 공동 편집
-<img src = "Image/dwa.gif" width="500px"><br>
+<img src = "Image/dwa.gif" width="700px"><br>
 * 프로젝트에 초대된 멤버들은 스튜디오에 입장하여 자신의 음원블록을 업로드 후 함께 구간에 맞게 블럭을 쌓는 방식으로 편집을 진행하고 저장할 수 있습니다. 
 <br>
 <br>
