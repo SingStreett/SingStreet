@@ -103,7 +103,7 @@
 <br>
 
 # 🪓 시스템 아키텍처
-  <img src="" width="700px">
+  <img src="Image/system.png" width="700px">
 <br>
 
 # 📚 ERD
