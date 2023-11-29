@@ -147,7 +147,7 @@
 <br>
 
 ### 프로젝트 멤버 파트 부여
-<img src = "Image/projectMemberJoin.gif" width="500px"><br>
+<img src = "Image/projectPart.gif" width="500px"><br>
 * 프로젝트장은 프로젝트 스튜디오에 입장하기 전 수정버튼으로 초대된 멤버들에게 파트를 부여할 수 있습니다.
 <br>
 
